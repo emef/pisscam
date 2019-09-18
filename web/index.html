@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <script src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js" integrity="sha384-/Cqa/8kaWn7emdqIBLk3AkFMAHBk0LObErtMhO+hr52CntkaurEnihPmqYj3uJho" crossorigin="anonymous">
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      Sentry.init({ dsn: 'https://3fde977e9f674a289768c75866e0d941@sentry.io/1576924' });
+    </script>
+    <style>
+      video {
+      width: 640px;
+      height: 360px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="error"></div>
+    <div>
+      <video id="video" playsinline muted />
+    </div>
+
+    <script>
+      var h = document.getElementsByTagName('head')[0];
+      var s = document.createElement('script');
+      s.src = 'index.js?s=' + Math.random();
+      h.appendChild(s);
+    </script>
+  </body>
+</html>
