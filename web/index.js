@@ -1,4 +1,4 @@
-var video_source = "/test_stream/stream.m3u8";
+var video_source = "/test_stream/live/stream.m3u8";
 var video = document.getElementById('video');
 var error = document.getElementById('error');
 error.innerHTML = "init";

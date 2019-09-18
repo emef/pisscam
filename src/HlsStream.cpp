@@ -40,7 +40,8 @@ void HlsStream::addSegment(const std::string &in_segment_path) {
   const std::string out_segment_path = _out_dir + filename;
 
   int in_fd = open(in_segment_path.c_str(), O_RDONLY);
-  int out_fd = open(out_segment_path.c_str(), O_RDWR | O_CREAT, S_IRWXU);
+  int out_fd = open(out_segment_path.c_str(), O_RDWR | O_CREAT,
+                    S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
   size_t filesize = lseek(in_fd, 0, SEEK_END);
   lseek(in_fd, 0, SEEK_SET);
   sendfile(out_fd, in_fd, NULL, filesize);

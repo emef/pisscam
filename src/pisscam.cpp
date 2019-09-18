@@ -13,7 +13,6 @@
 #include "VideoEncoder.h"
 #include "Webcam.h"
 #include "types.h"
-#include "uuid.h"
 
 static bool interrupted = false;
 
