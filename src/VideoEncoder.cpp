@@ -45,7 +45,10 @@ VideoEncoder::VideoEncoder(const int width, const int height, const int fps)
 
   _muxer = avformat_alloc_context();
   _muxer->oformat = av_guess_format("mpegts", NULL, NULL);
-  avio_open(&_muxer->pb, tmp_path, AVIO_FLAG_WRITE);
+  if (avio_open(&_muxer->pb, tmp_path, AVIO_FLAG_WRITE) < 0) {
+    spdlog::info("Error opening file {} for encoding", tmp_path);
+    throw std::runtime_error("Could not open output file");
+  }
 
   _video_track = avformat_new_stream(_muxer, NULL);
   _muxer->oformat->video_codec = codec_id;
