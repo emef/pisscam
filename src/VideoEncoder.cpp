@@ -4,6 +4,7 @@
 #include <utility>
 
 #include <libavutil/log.h>
+#include <spdlog/spdlog.h>
 
 VideoEncoder::VideoEncoder(const int width, const int height, const int fps)
 : _width(width)
