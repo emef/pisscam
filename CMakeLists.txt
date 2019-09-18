@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
-project(pisscam LANGUAGES CXX C)
+project(pisscam LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 14)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
@@ -16,7 +18,6 @@ set(SOURCES
 )
 
 add_executable(pisscam ${SOURCES})
-target_compile_features(pisscam PRIVATE cxx_std_14)
 target_compile_options(pisscam PUBLIC -Wall -Werror)
 target_link_libraries(pisscam
     CONAN_PKG::spdlog
