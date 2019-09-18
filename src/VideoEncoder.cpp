@@ -1,10 +1,13 @@
 #include "VideoEncoder.h"
 
+#include <sstream>
 #include <stdexcept>
 #include <utility>
 
 #include <libavutil/log.h>
 #include <spdlog/spdlog.h>
+
+#include "types.h"
 
 VideoEncoder::VideoEncoder(const int width, const int height, const int fps)
 : _width(width)
@@ -14,9 +17,12 @@ VideoEncoder::VideoEncoder(const int width, const int height, const int fps)
 
   av_log_set_level(AV_LOG_QUIET);
 
-  char tmp_path[] = "/tmp/hls_XXXXXX.ts";
-  _fd = mkstemps(tmp_path, 3);
-  _path = std::string(tmp_path);
+  std::stringstream tmp_path_ss;
+  tmp_path_ss << "/tmp/";
+  tmp_path_ss << std::chrono::duration_cast<Milliseconds>(Clock::now().time_since_epoch()).count();
+  tmp_path_ss << ".ts";
+
+  _path = tmp_path_ss.str();
 
   const AVCodecID codec_id = AV_CODEC_ID_H264;
 
@@ -46,8 +52,8 @@ VideoEncoder::VideoEncoder(const int width, const int height, const int fps)
 
   _muxer = avformat_alloc_context();
   _muxer->oformat = av_guess_format("mpegts", NULL, NULL);
-  if (avio_open(&_muxer->pb, tmp_path, AVIO_FLAG_WRITE) < 0) {
-    spdlog::info("Error opening file {} for encoding", tmp_path);
+  if (avio_open(&_muxer->pb, _path.c_str(), AVIO_FLAG_WRITE) < 0) {
+    spdlog::info("Error opening file {} for encoding", _path);
     throw std::runtime_error("Could not open output file");
   }
 
